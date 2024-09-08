@@ -1,33 +1,65 @@
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace AgendaApi.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class AgendaController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
+        private static List<Agenda> Agendas = [];
 
-        private readonly ILogger<AgendaController> _logger;
-
-        public AgendaController(ILogger<AgendaController> logger)
+        // GET: api/agenda
+        [HttpGet]
+        public IEnumerable<Agenda> GetAgendas()
         {
-            _logger = logger;
+            return Agendas;
         }
 
-        [HttpGet(Name = "GetAgenda")]
-        public IEnumerable<Agenda> Get()
+        // GET: api/agenda/{id}
+        [HttpGet("{id}")]
+        public ActionResult<Agenda> GetAgendaById(int id)
         {
-            return Enumerable.Range(1, 5).Select(index => new Agenda
+            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            if (agenda == null)
             {
-                //Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                //TemperatureC = Random.Shared.Next(-20, 55),
-                //Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-            })
-            .ToArray();
+                return NotFound();
+            }
+            return agenda;
+        }
+
+        // POST: api/agenda
+        [HttpPost]
+        public IActionResult CreateAgenda([FromBody] Agenda newAgenda)
+        {
+            newAgenda.Id = Agendas.Count + 1;
+            Agendas.Add(newAgenda);
+            return CreatedAtAction(nameof(GetAgendaById), new { id = newAgenda.Id }, newAgenda);
+        }
+
+        // PUT: api/agenda/{id}
+        [HttpPut("{id}")]
+        public IActionResult UpdateAgenda(int id, [FromBody] Agenda updatedAgenda)
+        {
+            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            if (agenda == null)
+            {
+                return NotFound();
+            }
+            agenda.Note = updatedAgenda.Note;
+            return NoContent();
+        }
+
+        // DELETE: api/agenda/{id}
+        [HttpDelete("{id}")]
+        public IActionResult DeleteAgenda(int id)
+        {
+            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            if (agenda == null)
+            {
+                return NotFound();
+            }
+            Agendas.Remove(agenda);
+            return NoContent();
         }
     }
 }
