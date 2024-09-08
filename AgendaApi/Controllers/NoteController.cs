@@ -32,7 +32,6 @@ namespace NoteApi.Controllers
         [HttpPost]
         public IActionResult CreateNote([FromBody] Note newNote)
         {
-            newNote.Id = Notes.Count + 1;
             Notes.Add(newNote);
             return CreatedAtAction(nameof(GetNoteById), new { id = newNote.Id }, newNote);
         }

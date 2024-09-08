@@ -1,9 +1,10 @@
 namespace AgendaApi
 {
-    public class Agenda
+    public class Agenda(Note note)
     {
-        public required int Id { get; set; }
+        public int Id { get; } = _nextId++;
+        public Note? Note { get; set; } = note;
 
-        public Note? Note { get; set; }
+        private static int _nextId = 0;
     }
 }

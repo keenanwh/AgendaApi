@@ -1,8 +1,15 @@
-﻿namespace AgendaApi
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace AgendaApi
 {
-    public class Note
+    public class Note(string content)
     {
-        public required int Id { get; set; }
-        public string? Content { get; set; }
+        public int Id { get; } = _nextId++;
+
+        [Required]
+        [StringLength(500, MinimumLength = 1)]
+        public string Content { get; set; } = content;
+
+        private static int _nextId = 0;
     }
 }

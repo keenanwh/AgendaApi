@@ -31,7 +31,6 @@ namespace AgendaApi.Controllers
         [HttpPost]
         public IActionResult CreateAgenda([FromBody] Agenda newAgenda)
         {
-            newAgenda.Id = Agendas.Count + 1;
             Agendas.Add(newAgenda);
             return CreatedAtAction(nameof(GetAgendaById), new { id = newAgenda.Id }, newAgenda);
         }
