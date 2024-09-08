@@ -19,7 +19,7 @@ namespace AgendaApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Agenda> GetAgendaById(int id)
         {
-            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            var agenda = Agendas.Find(a => a.Id == id);
             if (agenda == null)
             {
                 return NotFound();
@@ -29,6 +29,7 @@ namespace AgendaApi.Controllers
 
         // POST: api/agenda
         [HttpPost]
+        [ProducesResponseType(typeof(Agenda), StatusCodes.Status200OK)]
         public IActionResult CreateAgenda([FromBody] Agenda newAgenda)
         {
             Agendas.Add(newAgenda);
@@ -39,7 +40,7 @@ namespace AgendaApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateAgenda(int id, [FromBody] Agenda updatedAgenda)
         {
-            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            var agenda = Agendas.Find(a => a.Id == id);
             if (agenda == null)
             {
                 return NotFound();
@@ -52,7 +53,7 @@ namespace AgendaApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteAgenda(int id)
         {
-            var agenda = Agendas.FirstOrDefault(a => a.Id == id);
+            var agenda = Agendas.Find(a => a.Id == id);
             if (agenda == null)
             {
                 return NotFound();

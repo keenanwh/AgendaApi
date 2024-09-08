@@ -20,7 +20,7 @@ namespace NoteApi.Controllers
         [HttpGet("{id}")]
         public ActionResult<Note> GetNoteById(int id)
         {
-            var Note = Notes.FirstOrDefault(a => a.Id == id);
+            var Note = Notes.Find(a => a.Id == id);
             if (Note == null)
             {
                 return NotFound();
@@ -30,6 +30,7 @@ namespace NoteApi.Controllers
 
         // POST: api/Note
         [HttpPost]
+        [ProducesResponseType(typeof(Note), StatusCodes.Status200OK)]
         public IActionResult CreateNote([FromBody] Note newNote)
         {
             Notes.Add(newNote);
@@ -40,7 +41,7 @@ namespace NoteApi.Controllers
         [HttpPut("{id}")]
         public IActionResult UpdateNote(int id, [FromBody] Note updatedNote)
         {
-            var Note = Notes.FirstOrDefault(a => a.Id == id);
+            var Note = Notes.Find(a => a.Id == id);
             if (Note == null)
             {
                 return NotFound();
@@ -53,7 +54,7 @@ namespace NoteApi.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteNote(int id)
         {
-            var Note = Notes.FirstOrDefault(a => a.Id == id);
+            var Note = Notes.Find(a => a.Id == id);
             if (Note == null)
             {
                 return NotFound();
